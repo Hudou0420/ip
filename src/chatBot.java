@@ -2,11 +2,11 @@ import java.util.Scanner;
 
 public class chatBot{
 
-    private EventList eventList;
+    private TaskList taskList;
 
     public chatBot(){
         greeting();
-        eventList = new EventList();
+        taskList = new TaskList();
     }
 
     public static void greeting(){
@@ -52,35 +52,44 @@ public class chatBot{
 
     public void processInputs(String input){
         String[] inputs = input.split(" ");
-        switch (inputs[0]){ //take the first arg of the inputs
-        case "list":
-            eventList.listEvents();
-            break;
-        case "bye":
-            endSession();
-            break;
-        case "mark":
-            if (isInteger(inputs[1])){
-                eventList.markDone(Integer.parseInt(inputs[1]));
-            } else{
-                int firstSpaceIndex = input.indexOf(" ");
-                //take the rest of the command and find the event
-                String eventName = (firstSpaceIndex != -1) ? input.substring(firstSpaceIndex + 1) : "";
-                eventList.markDone(eventName);
+        try{
+            switch (inputs[0]){ //take the first arg of the inputs
+            case "list":
+                taskList.listTasks();
+                break;
+            case "bye":
+                endSession();
+                break;
+            case "mark":
+                if (isInteger(inputs[1])){
+                    taskList.markDone(Integer.parseInt(inputs[1]));
+                } else{
+                    int firstSpaceIndex = input.indexOf(" ");
+                    //take the rest of the command and find the event
+                    String eventName = (firstSpaceIndex != -1) ? input.substring(firstSpaceIndex + 1) : "";
+                    taskList.markDone(eventName);
+                }
+                break;
+            case "unmark":
+                if (isInteger(inputs[1])){
+                    taskList.markUndone(Integer.parseInt(inputs[1]));
+                } else{
+                    int firstSpaceIndex = input.indexOf(" ");
+                    //take the rest of the command and find the event
+                    String eventName = (firstSpaceIndex != -1) ? input.substring(firstSpaceIndex + 1) : "";
+                    taskList.markUndone(eventName);
+                }
+                break;
+            case "":
+                System.out.println("You did not say anything.");
+                break;
+            default:
+                taskList.addEvent(input);
             }
-            break;
-        case "unmark":
-            if (isInteger(inputs[1])){
-                eventList.markUndone(Integer.parseInt(inputs[1]));
-            } else{
-                int firstSpaceIndex = input.indexOf(" ");
-                //take the rest of the command and find the event
-                String eventName = (firstSpaceIndex != -1) ? input.substring(firstSpaceIndex + 1) : "";
-                eventList.markUndone(eventName);
-            }
-            break;
-        default:
-            eventList.addEvent(input);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Error: You have entered an invalid input.");
+        } catch (NullPointerException e) {
+            System.out.println("Error: You have entered an empty input.");
         }
     }
 }

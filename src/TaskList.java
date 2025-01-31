@@ -1,20 +1,20 @@
-public class EventList {
+public class TaskList {
 
-    private Event[] events;
+    private Tasks[] tasks;
     private int eventListSize;
 
-    public EventList() {
-        events = new Event[100];
+    public TaskList() {
+        tasks = new Tasks[100];
         eventListSize = 0;
     }
 
-    public EventList(Event[] events) {
-        this.events = events;
-        eventListSize = events.length;
+    public TaskList(Tasks[] tasks) {
+        this.tasks = tasks;
+        eventListSize = tasks.length;
     }
 
-    public EventList(EventList other) {
-        this.events = other.events;
+    public TaskList(TaskList other) {
+        this.tasks = other.tasks;
         this.eventListSize = other.eventListSize;
     }
 
@@ -23,22 +23,22 @@ public class EventList {
             System.out.println("You have too many events in your list! Complete some before adding new ones.");
             return;
         }
-        Event newEvent = new Event(event);
-        events[eventListSize] = newEvent;
+        Tasks newTasks = new Tasks(event);
+        tasks[eventListSize] = newTasks;
         eventListSize++;
-        System.out.println("Added new event: " + newEvent.getEventName());
+        System.out.println("Added new event: " + newTasks.getEventName());
         System.out.println("You have " + eventListSize + " events in your list!");
     }
 
-    public void listEvents(){
+    public void listTasks(){
         if (eventListSize == 0){
             System.out.println("You have no events in your list!");
             return;
         }
         for (int i = 0; i < eventListSize; i++) {
             System.out.println((i + 1) + ". " +
-                    (events[i].getEventStatus() ? "[X] " : "[ ] ")
-                            + events[i].getEventName());
+                    (tasks[i].getEventStatus() ? "[X] " : "[ ] ")
+                            + tasks[i].getEventName());
         }
     }
 
@@ -48,12 +48,12 @@ public class EventList {
             return;
         }
         for (int i = 0; i < eventListSize; i++) {
-            if (events[i].getEventName().equals(eventName)) {
-                events[i].setCompleted();
+            if (tasks[i].getEventName().equals(eventName)) {
+                tasks[i].setCompleted();
                 System.out.println("Event " + eventName + " has been marked done!");
                 //System.out.println("You have " + eventListSize + " events in your list!");
                 System.out.println("--------------------------------------------------");
-                listEvents();
+                listTasks();
                 System.out.println("--------------------------------------------------");
                 return;
             }
@@ -70,24 +70,24 @@ public class EventList {
             System.out.println("The event does not exist in your list!");
             return;
         }
-        if (events[index - 1].getEventStatus()) {
-            System.out.println("Event " + events[index - 1].getEventName() + " has already been done!");
+        if (tasks[index - 1].getEventStatus()) {
+            System.out.println("Event " + tasks[index - 1].getEventName() + " has already been done!");
             return;
         }
-        events[index - 1].setCompleted();
-        System.out.println("Event " + events[index - 1].getEventName() + " has been marked done!");
+        tasks[index - 1].setCompleted();
+        System.out.println("Event " + tasks[index - 1].getEventName() + " has been marked done!");
         System.out.println("--------------------------------------------------");
-        listEvents();
+        listTasks();
         System.out.println("--------------------------------------------------");
     }
 
     public void markUndone(String eventName){
         for (int i = 0; i < eventListSize; i++) {
-            if (events[i].getEventName().equals(eventName)) {
-                events[i].setUncompleted();
+            if (tasks[i].getEventName().equals(eventName)) {
+                tasks[i].setUncompleted();
                 System.out.println("Event " + eventName + " has been unmarked!");
                 System.out.println("--------------------------------------------------");
-                listEvents();
+                listTasks();
                 System.out.println("--------------------------------------------------");
                 return;
             }
@@ -104,14 +104,14 @@ public class EventList {
             System.out.println("The event does not exist in your list!");
             return;
         }
-        if (!events[index - 1].getEventStatus()) {
-            System.out.println("Event " + events[index - 1].getEventName() + " has not been done!");
+        if (!tasks[index - 1].getEventStatus()) {
+            System.out.println("Event " + tasks[index - 1].getEventName() + " has not been done!");
             return;
         }
-        events[index - 1].setUncompleted();
-        System.out.println("Event " + events[index - 1].getEventName() + " has been unmarked!");
+        tasks[index - 1].setUncompleted();
+        System.out.println("Event " + tasks[index - 1].getEventName() + " has been unmarked!");
         System.out.println("--------------------------------------------------");
-        listEvents();
+        listTasks();
         System.out.println("--------------------------------------------------");
     }
 }
