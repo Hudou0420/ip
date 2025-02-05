@@ -1,5 +1,6 @@
 public class TaskList {
 
+    public static final int MAXTASKCOUNT = 100;
     public static final String noTaskNotifier = "You have no task in your list!";
     public static final String nonExistentTaskNotifier = "The task is not in your list!";
 
@@ -18,15 +19,18 @@ public class TaskList {
 
     //parameterless
     public TaskList() {
-        tasks = new Task[100];
+        tasks = new Task[MAXTASKCOUNT];
         taskCounter = 0;
     }
 
+    //constructor that takes in an already existed task list
+    //use later if needed
     public TaskList(Task[] tasks) {
         this.tasks = tasks;
         taskCounter = tasks.length;
     }
 
+    //copy constructor for later use if needed
     public TaskList(TaskList other) {
         this.tasks = other.tasks;
         this.taskCounter = other.taskCounter;
@@ -35,7 +39,7 @@ public class TaskList {
 
     public void addEvent(String taskInput) {
         //handle exception of too many events being in the list
-        if (taskCounter >= 100){
+        if (taskCounter >= MAXTASKCOUNT){
             System.out.println("You have too many events in your list! Complete some before adding new ones.");
             return;
         }
@@ -89,9 +93,11 @@ public class TaskList {
             System.out.println(nonExistentTaskNotifier);
             return;
         }
-        //handle exception where the input index has already been marked done
         if (tasks[index - 1].getTaskCompletionStatus()) {
             System.out.println("Task " + tasks[index - 1].getTaskName() + " has already been done!");
+            //print task returns string because I need String output
+            //in the lisTasks() method
+            System.out.println(tasks[index - 1].printTask());
             return;
         }
         tasks[index - 1].setCompleted();
@@ -125,9 +131,9 @@ public class TaskList {
             System.out.println(nonExistentTaskNotifier);
             return;
         }
-        //handle exception where the task has not been done yet
         if (!tasks[index - 1].getTaskCompletionStatus()) {
             System.out.println("Task " + tasks[index - 1].getTaskName() + " has not been done!");
+            System.out.println(tasks[index - 1].printTask());
             return;
         }
         tasks[index - 1].setUncompleted();

@@ -43,7 +43,7 @@ public class ChatBot {
         }
     }
 
-    public void processInputs(String input){
+    public void reactToInputs(String input){
         String[] inputs = input.split(" ");
         try{
             switch (inputs[0]){ //take the first arg of the inputs
@@ -63,20 +63,24 @@ public class ChatBot {
                 if (isInteger(inputs[1])){
                     taskList.markDone(Integer.parseInt(inputs[1]));
                 } else{
-                    int firstSpaceIndex = input.indexOf(" ");
-                    //take the rest of the command and find the event
-                    String eventName = (firstSpaceIndex != -1) ? input.substring(firstSpaceIndex + 1) : "";
-                    taskList.markDone(eventName);
+//                    int firstSpaceIndex = input.indexOf(" ");
+//                    //take the rest of the command and find the event
+//                    String eventName = (firstSpaceIndex != -1) ?
+//                            input.substring(firstSpaceIndex + 1) : "";
+                    String taskName = Task.getSubstringFromSecondWord(input);
+                    taskList.markDone(taskName);
                 }
                 break;
             case "unmark":
                 if (isInteger(inputs[1])){
                     taskList.markUndone(Integer.parseInt(inputs[1]));
                 } else{
-                    int firstSpaceIndex = input.indexOf(" ");
-                    //take the rest of the command and find the event
-                    String eventName = (firstSpaceIndex != -1) ? input.substring(firstSpaceIndex + 1) : "";
-                    taskList.markUndone(eventName);
+//                    int firstSpaceIndex = input.indexOf(" ");
+//                    //take the rest of the command and find the event
+//                    String eventName = (firstSpaceIndex != -1) ?
+//                            input.substring(firstSpaceIndex + 1) : "";
+                    String taskName = Task.getSubstringFromSecondWord(input);
+                    taskList.markUndone(taskName);
                 }
                 break;
 
