@@ -1,117 +1,137 @@
 public class TaskList {
 
-    private Tasks[] tasks;
-    private int eventListSize;
+    public static final String noTaskNotifier = "You have no task in your list!";
+    public static final String nonExistentTaskNotifier = "The task is not in your list!";
 
-    public TaskList() {
-        tasks = new Tasks[100];
-        eventListSize = 0;
+    private Task[] tasks;
+    private int taskCounter;
+
+    private Task classifyTaskTypes(String input){
+        String[] inputArray = input.split(" ");
+        return switch (inputArray[0]) {
+            case "todo" -> new Todo(input);
+            case "deadline" -> new Deadline(input);
+            case "event" -> new Event(input);
+            default -> new Task(input);
+        };
     }
 
-    public TaskList(Tasks[] tasks) {
+    //parameterless
+    public TaskList() {
+        tasks = new Task[100];
+        taskCounter = 0;
+    }
+
+    public TaskList(Task[] tasks) {
         this.tasks = tasks;
-        eventListSize = tasks.length;
+        taskCounter = tasks.length;
     }
 
     public TaskList(TaskList other) {
         this.tasks = other.tasks;
-        this.eventListSize = other.eventListSize;
+        this.taskCounter = other.taskCounter;
     }
 
-    public void addEvent(String event) {
-        if (eventListSize >= 100){
+
+    public void addEvent(String taskInput) {
+        //handle exception of too many events being in the list
+        if (taskCounter >= 100){
             System.out.println("You have too many events in your list! Complete some before adding new ones.");
             return;
         }
-        Tasks newTasks = new Tasks(event);
-        tasks[eventListSize] = newTasks;
-        eventListSize++;
-        System.out.println("Added new event: " + newTasks.getEventName());
-        System.out.println("You have " + eventListSize + " events in your list!");
+        //process the first arg to get the type of the task
+        tasks[taskCounter] = classifyTaskTypes(taskInput);
+        taskCounter++;
+        listTasks();
     }
 
+    //method to print out all the tasks, whether it is completed or not
+    //this method prints the tasks added earliest first.
     public void listTasks(){
-        if (eventListSize == 0){
-            System.out.println("You have no events in your list!");
+        if (taskCounter == 0){
+            System.out.println(noTaskNotifier);
             return;
         }
-        for (int i = 0; i < eventListSize; i++) {
-            System.out.println((i + 1) + ". " +
-                    (tasks[i].getEventStatus() ? "[X] " : "[ ] ")
-                            + tasks[i].getEventName());
+        System.out.println("You have " + taskCounter + " tasks in your list!");
+        System.out.println(ChatBot.lineSeparator);
+        for (int i = 0; i < taskCounter; i++) {
+            System.out.println((i + 1) + "." + tasks[i].printTask());
         }
+        System.out.println(ChatBot.lineSeparator);
     }
 
-    public void markDone(String eventName){
-        if (eventListSize == 0){
-            System.out.println("You have no events in your list!");
+    public void markDone(String taskName){
+        if (taskCounter == 0){
+            System.out.println(noTaskNotifier);
             return;
         }
-        for (int i = 0; i < eventListSize; i++) {
-            if (tasks[i].getEventName().equals(eventName)) {
+        //iterate through the list to identify the task satisfying the name "taskName"
+        for (int i = 0; i < taskCounter; i++) {
+            if (tasks[i].getTaskName().equals(taskName)) {
                 tasks[i].setCompleted();
-                System.out.println("Event " + eventName + " has been marked done!");
-                //System.out.println("You have " + eventListSize + " events in your list!");
-                System.out.println("--------------------------------------------------");
+                System.out.println("Event " + taskName + " has been marked done!");
                 listTasks();
-                System.out.println("--------------------------------------------------");
                 return;
             }
         }
-        System.out.println("The event is not in your list!");
+        System.out.println(nonExistentTaskNotifier);
     }
 
     public void markDone(int index){
-        if (eventListSize == 0){
-            System.out.println("You have no events in your list!");
+        //handle exception where there is no task in the list
+        if (taskCounter == 0){
+            System.out.println(noTaskNotifier);
             return;
         }
-        if (index > eventListSize){
-            System.out.println("The event does not exist in your list!");
+        //handle exception where the input index is
+        //greater than the number of tasks inside the list
+        if (index > taskCounter){
+            System.out.println(nonExistentTaskNotifier);
             return;
         }
-        if (tasks[index - 1].getEventStatus()) {
-            System.out.println("Event " + tasks[index - 1].getEventName() + " has already been done!");
+        //handle exception where the input index has already been marked done
+        if (tasks[index - 1].getTaskCompletionStatus()) {
+            System.out.println("Task " + tasks[index - 1].getTaskName() + " has already been done!");
             return;
         }
         tasks[index - 1].setCompleted();
-        System.out.println("Event " + tasks[index - 1].getEventName() + " has been marked done!");
-        System.out.println("--------------------------------------------------");
+        System.out.println("Task " + tasks[index - 1].getTaskName() + " has been marked done!");
         listTasks();
-        System.out.println("--------------------------------------------------");
     }
 
-    public void markUndone(String eventName){
-        for (int i = 0; i < eventListSize; i++) {
-            if (tasks[i].getEventName().equals(eventName)) {
+    public void markUndone(String taskName){
+        if (taskCounter == 0){
+            System.out.println(noTaskNotifier);
+            return;
+        }
+        //iterate through the list to identify the task satisfying the name "taskName"
+        for (int i = 0; i < taskCounter; i++) {
+            if (tasks[i].getTaskName().equals(taskName)) {
                 tasks[i].setUncompleted();
-                System.out.println("Event " + eventName + " has been unmarked!");
-                System.out.println("--------------------------------------------------");
+                System.out.println("Task " + taskName + " has been unmarked!");
                 listTasks();
-                System.out.println("--------------------------------------------------");
                 return;
             }
         }
-        System.out.println("The event is not in your list!");
+        System.out.println(nonExistentTaskNotifier);
     }
 
     public void markUndone(int index){
-        if (eventListSize == 0){
-            System.out.println("You have no events in your list!");
+        if (taskCounter == 0){
+            System.out.println(noTaskNotifier);
             return;
         }
-        if (index > eventListSize){
-            System.out.println("The event does not exist in your list!");
+        if (index > taskCounter){
+            System.out.println(nonExistentTaskNotifier);
             return;
         }
-        if (!tasks[index - 1].getEventStatus()) {
-            System.out.println("Event " + tasks[index - 1].getEventName() + " has not been done!");
+        //handle exception where the task has not been done yet
+        if (!tasks[index - 1].getTaskCompletionStatus()) {
+            System.out.println("Task " + tasks[index - 1].getTaskName() + " has not been done!");
             return;
         }
         tasks[index - 1].setUncompleted();
-        System.out.println("Event " + tasks[index - 1].getEventName() + " has been unmarked!");
-        System.out.println("--------------------------------------------------");
+        System.out.println("Task " + tasks[index - 1].getTaskName() + " has been unmarked!");
         listTasks();
-        System.out.println("--------------------------------------------------");
     }
 }

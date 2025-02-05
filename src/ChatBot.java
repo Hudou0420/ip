@@ -1,10 +1,10 @@
-import java.util.Scanner;
+public class ChatBot {
+    public static final String lineSeparator = "-".repeat(30);
 
-public class chatBot{
 
     private TaskList taskList;
 
-    public chatBot(){
+    public ChatBot(){
         greeting();
         taskList = new TaskList();
     }
@@ -16,29 +16,22 @@ public class chatBot{
 //                + "| | | | | | | |/ / _ \\\n"
 //                + "| |_| | |_| |   <  __/\n"
 //                + "|____/ \\__,_|_|\\_\\___|\n";
-        String chatbotGreeting = "-------------------------------------------\n" +
+        String chatbotGreeting = lineSeparator + '\n' +
                 "Hello! I'm " + chatbotName + "\nWhat can I do for you?\n";
         System.out.println(chatbotGreeting);
     }
 
     public static void endSession(){
-        String chatbotExit =  "\n-------------------------------------------\n" +
+        String chatbotExit =  '\n' + lineSeparator + '\n' +
                 "Bye. Hope to see you again soon!\n" +
-                "-------------------------------------------\n";
+                lineSeparator + '\n';
         System.out.println(chatbotExit);
     }
 
-    public static void echo(){
-        String user = null;
-        do {
-            Scanner cin = new Scanner(System.in);
-            user = cin.nextLine();
-            if (!user.equals("bye")) {
-                System.out.println("------------------------------------------");
-                System.out.println("You said: " + user);
-                System.out.println("------------------------------------------");
-            }
-        } while(!user.equals("bye"));
+    public static void echo(String input){
+        System.out.println(lineSeparator);
+        System.out.println("You said: " + input);
+        System.out.println(lineSeparator);
     }
 
     public static boolean isInteger(String str) {
@@ -60,6 +53,12 @@ public class chatBot{
             case "bye":
                 endSession();
                 break;
+            case "todo":
+            case "deadline":
+            case "event":
+                taskList.addEvent(input);
+                break;
+
             case "mark":
                 if (isInteger(inputs[1])){
                     taskList.markDone(Integer.parseInt(inputs[1]));
@@ -80,11 +79,13 @@ public class chatBot{
                     taskList.markUndone(eventName);
                 }
                 break;
+
+            //handle exceptions
             case "":
                 System.out.println("You did not say anything.");
                 break;
             default:
-                taskList.addEvent(input);
+                echo(input);
             }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Error: You have entered an invalid input.");

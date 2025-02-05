@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Hudou {
     public static void main(String[] args) {
-        chatBot chatBot = new chatBot();
+        ChatBot chatBot = new ChatBot();
         String input = null;
         do{
             Scanner scanner = new Scanner(System.in);
