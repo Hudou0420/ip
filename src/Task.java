@@ -1,7 +1,6 @@
 public class Task {
 
-    public static final String emptyEvent = "Event not added, the input is empty.";
-    public static final String invalidEvent = "Event not added, the input is invalid.";
+
 
     protected String taskName;
     protected boolean isCompleted;

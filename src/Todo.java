@@ -8,9 +8,9 @@ public class Todo extends Task {
             this.isCompleted = false;
             System.out.println("Added new todo task: " + this.taskName);
         } catch (NullPointerException e){
-            System.out.println(emptyEvent);
+            Exception.handleEmptyTask();
         } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println(invalidEvent);
+            Exception.handleInvalidTask();
         }
     }
 

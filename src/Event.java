@@ -17,9 +17,9 @@ public class Event extends Task{
             this.endTime = taskStartAndEndTime[1];
             System.out.println("Added new event: " + this.taskName + " from: " + this.startTime + ", to: " + this.endTime);
         } catch (NullPointerException e){
-            System.out.println(emptyEvent);
+            Exception.handleEmptyTask();
         } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println(invalidEvent);
+            Exception.handleInvalidTask();
         }
     }
 
