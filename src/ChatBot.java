@@ -1,6 +1,12 @@
 public class ChatBot {
+    public static final String chatbotName = "Hudou";
     public static final String lineSeparator = "-".repeat(30);
 
+    public static final String chatbotGreeting = lineSeparator + '\n' +
+            "Hello! I'm " + chatbotName + "\nWhat can I do for you?\n";
+    public static final String chatbotExit =  '\n' + lineSeparator + '\n' +
+            "Bye. Hope to see you again soon!\n" +
+            lineSeparator + '\n';
 
     private TaskList taskList;
 
@@ -10,21 +16,10 @@ public class ChatBot {
     }
 
     public static void greeting(){
-        String chatbotName = "Hudou";
-//        String logo = " ____        _        \n"
-//                + "|  _ \\ _   _| | _____ \n"
-//                + "| | | | | | | |/ / _ \\\n"
-//                + "| |_| | |_| |   <  __/\n"
-//                + "|____/ \\__,_|_|\\_\\___|\n";
-        String chatbotGreeting = lineSeparator + '\n' +
-                "Hello! I'm " + chatbotName + "\nWhat can I do for you?\n";
         System.out.println(chatbotGreeting);
     }
 
     public static void endSession(){
-        String chatbotExit =  '\n' + lineSeparator + '\n' +
-                "Bye. Hope to see you again soon!\n" +
-                lineSeparator + '\n';
         System.out.println(chatbotExit);
     }
 
@@ -63,10 +58,6 @@ public class ChatBot {
                 if (isInteger(inputs[1])){
                     taskList.markDone(Integer.parseInt(inputs[1]));
                 } else{
-//                    int firstSpaceIndex = input.indexOf(" ");
-//                    //take the rest of the command and find the event
-//                    String eventName = (firstSpaceIndex != -1) ?
-//                            input.substring(firstSpaceIndex + 1) : "";
                     String taskName = Task.getSubstringFromSecondWord(input);
                     taskList.markDone(taskName);
                 }
@@ -75,10 +66,6 @@ public class ChatBot {
                 if (isInteger(inputs[1])){
                     taskList.markUndone(Integer.parseInt(inputs[1]));
                 } else{
-//                    int firstSpaceIndex = input.indexOf(" ");
-//                    //take the rest of the command and find the event
-//                    String eventName = (firstSpaceIndex != -1) ?
-//                            input.substring(firstSpaceIndex + 1) : "";
                     String taskName = Task.getSubstringFromSecondWord(input);
                     taskList.markUndone(taskName);
                 }
@@ -92,9 +79,9 @@ public class ChatBot {
                 echo(input);
             }
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Error: You have entered an invalid input.");
+            Exception.handleChatBotInvalidInput();
         } catch (NullPointerException e) {
-            System.out.println("Error: You have entered an empty input.");
+            Exception.handleChatBotEmptyInput();
         }
     }
 }

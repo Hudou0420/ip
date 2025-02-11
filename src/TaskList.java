@@ -1,8 +1,8 @@
 public class TaskList {
 
     public static final int MAXTASKCOUNT = 100;
-    public static final String noTaskNotifier = "You have no task in your list!";
-    public static final String nonExistentTaskNotifier = "The task is not in your list!";
+    public static final String tooManyTasksNotifier = "You have too many events in your list! Complete some before adding new ones.";
+
 
     private Task[] tasks;
     private int taskCounter;
@@ -40,7 +40,7 @@ public class TaskList {
     public void addEvent(String taskInput) {
         //handle exception of too many events being in the list
         if (taskCounter >= MAXTASKCOUNT){
-            System.out.println("You have too many events in your list! Complete some before adding new ones.");
+            System.out.println(tooManyTasksNotifier);
             return;
         }
         //process the first arg to get the type of the task
@@ -53,7 +53,7 @@ public class TaskList {
     //this method prints the tasks added earliest first.
     public void listTasks(){
         if (taskCounter == 0){
-            System.out.println(noTaskNotifier);
+            Exception.handleNoTaskNotifier();
             return;
         }
         System.out.println("You have " + taskCounter + " tasks in your list!");
@@ -66,7 +66,7 @@ public class TaskList {
 
     public void markDone(String taskName){
         if (taskCounter == 0){
-            System.out.println(noTaskNotifier);
+            Exception.handleNoTaskNotifier();
             return;
         }
         //iterate through the list to identify the task satisfying the name "taskName"
@@ -78,19 +78,19 @@ public class TaskList {
                 return;
             }
         }
-        System.out.println(nonExistentTaskNotifier);
+        Exception.handleNonExistentTaskNotifier();
     }
 
     public void markDone(int index){
         //handle exception where there is no task in the list
         if (taskCounter == 0){
-            System.out.println(noTaskNotifier);
+            Exception.handleNoTaskNotifier();
             return;
         }
         //handle exception where the input index is
         //greater than the number of tasks inside the list
         if (index > taskCounter){
-            System.out.println(nonExistentTaskNotifier);
+            Exception.handleNonExistentTaskNotifier();
             return;
         }
         if (tasks[index - 1].getTaskCompletionStatus()) {
@@ -107,7 +107,7 @@ public class TaskList {
 
     public void markUndone(String taskName){
         if (taskCounter == 0){
-            System.out.println(noTaskNotifier);
+            Exception.handleNoTaskNotifier();
             return;
         }
         //iterate through the list to identify the task satisfying the name "taskName"
@@ -119,16 +119,16 @@ public class TaskList {
                 return;
             }
         }
-        System.out.println(nonExistentTaskNotifier);
+        Exception.handleNonExistentTaskNotifier();
     }
 
     public void markUndone(int index){
         if (taskCounter == 0){
-            System.out.println(noTaskNotifier);
+            Exception.handleNoTaskNotifier();
             return;
         }
         if (index > taskCounter){
-            System.out.println(nonExistentTaskNotifier);
+            Exception.handleNonExistentTaskNotifier();
             return;
         }
         if (!tasks[index - 1].getTaskCompletionStatus()) {

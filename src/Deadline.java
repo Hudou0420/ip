@@ -11,9 +11,9 @@ public class Deadline extends Task {
             this.deadline = taskDetails[1];
             System.out.println("Added new deadline: " + this.taskName + ", by: " + this.deadline);
         } catch (NullPointerException e){
-            System.out.println(emptyEvent);
+            Exception.handleEmptyTask();
         } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println(invalidEvent);
+            Exception.handleInvalidTask();
         }
     }
 
