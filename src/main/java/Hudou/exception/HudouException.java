@@ -25,4 +25,18 @@ public class HudouException {
     //exceptions for the chatBot class
     public static void handleChatBotEmptyInput(){ System.out.println(chatBotEmptyInput); }
     public static void handleChatBotInvalidInput(){ System.out.println(chatBotInvalidInput); }
+
+    public static enum taskListErrors {noError, errorCaught}
+
+    public static taskListErrors handleTaskListExceptions(int index, int taskCounter, int unfinishedTaskCounter){
+        if (taskCounter == 0){
+            handleNoTaskNotifier();
+            return taskListErrors.errorCaught;
+        }
+        if (index > taskCounter){
+            handleNonExistentTaskNotifier();
+            return taskListErrors.errorCaught;
+        }
+        return taskListErrors.noError;
+    }
 }

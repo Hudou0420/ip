@@ -19,7 +19,7 @@ public class Event extends Task{
             String[] taskStartAndEndTime = splitBySubstringCommands(taskDetails[1], endTimeCommand);
             this.startTime = taskStartAndEndTime[0];
             this.endTime = taskStartAndEndTime[1];
-            System.out.println("Added new event: " + this.taskName + " from: " + this.startTime + ", to: " + this.endTime);
+            System.out.println("Added new event: " + this.taskName + " from:" + this.startTime + ", to:" + this.endTime);
         } catch (NullPointerException e){
             HudouException.handleEmptyTask();
         } catch (ArrayIndexOutOfBoundsException e){
@@ -29,7 +29,7 @@ public class Event extends Task{
 
     public String printTask(){
         String completionStatus = isCompleted ? "[X] " : "[ ] ";
-        return (taskType + completionStatus + this.taskName + " (from: "+ this.startTime +  ", to: "  + this.endTime + ")");
+        return (taskType + completionStatus + this.taskName + " (from:"+ this.startTime +  ", to:"  + this.endTime + ")");
     }
 
 }

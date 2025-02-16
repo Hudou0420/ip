@@ -79,7 +79,9 @@ public class ChatBot {
                     taskList.markUndone(taskName);
                 }
                 break;
-
+            case "delete":
+                taskList.deleteTask(Integer.parseInt(inputs[1]));
+                break;
             //handle exceptions
             case "":
                 System.out.println("You did not say anything.");
