@@ -56,6 +56,10 @@ public class ChatBot {
             case "todo":
             case "deadline":
             case "event":
+                if (inputs.length < 2){
+                    System.out.println(HudouException.emptyDescription);
+                    return;
+                }
                 taskList.addTask(input);
                 break;
 
@@ -81,6 +85,7 @@ public class ChatBot {
                 System.out.println("You did not say anything.");
                 break;
             default:
+                System.out.println(HudouException.unknownInput);
                 echo(input);
             }
         } catch (IndexOutOfBoundsException e) {
