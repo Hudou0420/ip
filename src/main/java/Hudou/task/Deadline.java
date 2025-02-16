@@ -1,3 +1,7 @@
+package main.java.Hudou.task;
+
+import main.java.Hudou.exception.HudouException;
+
 public class Deadline extends Task {
     protected String deadline;
     protected final String taskType = "[D]";
@@ -11,9 +15,9 @@ public class Deadline extends Task {
             this.deadline = taskDetails[1];
             System.out.println("Added new deadline: " + this.taskName + ", by: " + this.deadline);
         } catch (NullPointerException e){
-            Exception.handleEmptyTask();
+            HudouException.handleEmptyTask();
         } catch (ArrayIndexOutOfBoundsException e){
-            Exception.handleInvalidTask();
+            HudouException.handleInvalidTask();
         }
     }
 

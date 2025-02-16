@@ -1,3 +1,7 @@
+package main.java.Hudou.task;
+
+import main.java.Hudou.exception.HudouException;
+
 public class Todo extends Task {
     protected final String taskType = "[T]";
 
@@ -8,9 +12,9 @@ public class Todo extends Task {
             this.isCompleted = false;
             System.out.println("Added new todo task: " + this.taskName);
         } catch (NullPointerException e){
-            Exception.handleEmptyTask();
+            HudouException.handleEmptyTask();
         } catch (ArrayIndexOutOfBoundsException e){
-            Exception.handleInvalidTask();
+            HudouException.handleInvalidTask();
         }
     }
 

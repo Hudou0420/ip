@@ -1,3 +1,5 @@
+package main.java.Hudou.command;
+
 import java.util.Scanner;
 
 public class Hudou {

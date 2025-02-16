@@ -1,3 +1,8 @@
+package main.java.Hudou.command;
+import main.java.Hudou.task.*;
+import main.java.Hudou.exception.*;
+
+
 public class ChatBot {
     public static final String chatbotName = "Hudou";
     public static final String lineSeparator = "-".repeat(30);
@@ -51,7 +56,7 @@ public class ChatBot {
             case "todo":
             case "deadline":
             case "event":
-                taskList.addEvent(input);
+                taskList.addTask(input);
                 break;
 
             case "mark":
@@ -79,9 +84,9 @@ public class ChatBot {
                 echo(input);
             }
         } catch (IndexOutOfBoundsException e) {
-            Exception.handleChatBotInvalidInput();
+            HudouException.handleChatBotInvalidInput();
         } catch (NullPointerException e) {
-            Exception.handleChatBotEmptyInput();
+            HudouException.handleChatBotEmptyInput();
         }
     }
 }
