@@ -1,7 +1,9 @@
-public class Exception {
+package main.java.Hudou.exception;
 
-    public static final String emptyTask = "Event not added, the input is empty.";
-    public static final String invalidTask = "Event not added, the input is invalid.";
+public class HudouException {
+
+    public static final String emptyTask = "main.java.Hudou.task.Event not added, the input is empty.";
+    public static final String invalidTask = "main.java.Hudou.task.Event not added, the input is invalid.";
 
     public static final String noTaskNotifier = "You have no task in your list!";
     public static final String nonExistentTaskNotifier = "The task is not in your list!";
@@ -9,7 +11,7 @@ public class Exception {
     public static final String chatBotEmptyInput = "Error: You have entered an empty input.";
     public static final String chatBotInvalidInput = "Error: You have entered an invalid input.";
 
-    //exceptions for the Task class
+    //exceptions for the main.java.Hudou.task.Task class
     public static void handleEmptyTask(){ System.out.println(emptyTask); }
     public static void handleInvalidTask(){ System.out.println(invalidTask); }
 

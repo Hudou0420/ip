@@ -1,3 +1,7 @@
+package main.java.Hudou.task;
+
+import main.java.Hudou.exception.HudouException;
+
 public class Event extends Task{
     protected final String taskType = "[E]";
     protected final String startTimeCommand = "/from";
@@ -17,9 +21,9 @@ public class Event extends Task{
             this.endTime = taskStartAndEndTime[1];
             System.out.println("Added new event: " + this.taskName + " from: " + this.startTime + ", to: " + this.endTime);
         } catch (NullPointerException e){
-            Exception.handleEmptyTask();
+            HudouException.handleEmptyTask();
         } catch (ArrayIndexOutOfBoundsException e){
-            Exception.handleInvalidTask();
+            HudouException.handleInvalidTask();
         }
     }
 
