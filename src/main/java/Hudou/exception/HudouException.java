@@ -3,10 +3,11 @@ package main.java.Hudou.exception;
 public class HudouException {
 
     public static final String emptyDescription = "You did not enter a description for the task.";
-    public static final String unknownInput = "I have no idea what you've said\nSo I am just gonna repeat what you've said.";
+    public static final String unknownInput = "I have no idea what you've said\n" +
+            "So I am just gonna repeat what you've said.";
 
-    public static final String emptyTask = "Event not added, the input is empty.";
-    public static final String invalidTask = "task.Event not added, the input is invalid.";
+    public static final String emptyTask = "Task not added, the input is empty.";
+    public static final String invalidTask = "Task not added, the input is invalid.";
 
     public static final String noTaskNotifier = "You have no task in your list!";
     public static final String nonExistentTaskNotifier = "The task is not in your list!";
@@ -25,4 +26,8 @@ public class HudouException {
     //exceptions for the chatBot class
     public static void handleChatBotEmptyInput(){ System.out.println(chatBotEmptyInput); }
     public static void handleChatBotInvalidInput(){ System.out.println(chatBotInvalidInput); }
+
+    public static void JARFullNotifier() {
+        System.err.println("Error: JAR directory is null. Cannot write tasks to file.");
+    }
 }
