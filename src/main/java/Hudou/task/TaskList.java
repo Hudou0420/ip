@@ -8,21 +8,42 @@ import java.util.ArrayList;
 public class TaskList {
 
     public static final int MAXTASKCOUNT = 100;
-    public static final String tooManyTasksNotifier = "You have too many events in your list! Complete some before adding new ones.";
+    public static final String tooManyTasksNotifier =
+            "You have too many events in your list! Complete some before adding new ones.";
 
 
     private ArrayList<Task> tasks;
     //private int taskCounter;
     private int unfinishedTaskCounter;
 
-    private Task classifyTaskTypes(String input){
-        String[] inputArray = input.split(" ");
-        return switch (inputArray[0]) {
-            case "todo" -> new Todo(input);
-            case "deadline" -> new Deadline(input);
-            case "event" -> new Event(input);
-            default -> new Task(input);
-        };
+    //public Task[] getTasks(){ return tasks; };
+    public ArrayList<Task> getTasks() {return tasks;}
+
+    //to split the command depending on whether the input is read from
+    //user in CLI or read from file
+    private String[] splitStringByInputType(String input, boolean isReadFromFile){
+        String splitter = isReadFromFile ? "\\|" : " ";
+        String[] splitted = input.split(splitter);
+        return splitted;
+    }
+
+    private Task classifyTaskTypes(String input, Boolean isReadFromFile){
+        String[] inputArray = splitStringByInputType(input, isReadFromFile);
+        if (isReadFromFile){
+            return switch (inputArray[0]) {
+                case "todo" -> new Todo(inputArray);
+                case "deadline" -> new Deadline(inputArray);
+                case "event" -> new Event(inputArray);
+                default -> new Task(input);
+            };
+        } else{
+            return switch (inputArray[0]) {
+                case "todo" -> new Todo(input);
+                case "deadline" -> new Deadline(input);
+                case "event" -> new Event(input);
+                default -> new Task(input);
+            };
+        }
     }
 
     //parameterless
@@ -47,7 +68,7 @@ public class TaskList {
     }
 
 
-    public void addTask(String taskInput) {
+    public void addTask(String taskInput, boolean isReadFromFile) {
         //handle exception of too many events being in the list
         if (tasks.size() >= MAXTASKCOUNT){
             System.out.println(tooManyTasksNotifier);
@@ -55,11 +76,14 @@ public class TaskList {
         }
         //process the first arg to get the type of the task
         //tasks[taskCounter] = classifyTaskTypes(taskInput);
-        tasks.add(classifyTaskTypes(taskInput));
-        //taskCounter++;
-        unfinishedTaskCounter++;
-        listTasks();
+        Task currentTask = classifyTaskTypes(taskInput, isReadFromFile);
+        tasks.add(currentTask);
+        if (!isReadFromFile || !currentTask.getTaskCompletionStatus()){
+            unfinishedTaskCounter++;    //change this later to check if the saved task has been done
+        }
+        if (!isReadFromFile){ listTasks(); }
     }
+
 
     //method to print out all the tasks, whether it is completed or not
     //this method prints the tasks added earliest first.
@@ -86,7 +110,7 @@ public class TaskList {
             if (tasks.get(i).getTaskName().equals(taskName)) {
                 tasks.get(i).setCompleted();
                 unfinishedTaskCounter--;
-                System.out.println("main.java.Hudou.task.Event " + taskName + " has been marked done!");
+                System.out.println("Task " + taskName + " has been marked done!");
                 listTasks();
                 return;
             }
@@ -99,8 +123,14 @@ public class TaskList {
                 == HudouException.taskListErrors.errorCaught) {
             return;
         }
+        //handle exception where the input index is
+        //greater than the number of tasks inside the list
+        if (index > tasks.size()){
+            HudouException.handleNonExistentTaskNotifier();
+            return;
+        }
         if (tasks.get(index - 1).getTaskCompletionStatus()) {
-            System.out.println("main.java.Hudou.task.Task " + tasks.get(index - 1).getTaskName() + " has already been done!");
+            System.out.println("Task " + tasks.get(index - 1).getTaskName() + " has already been done!");
             //print task returns string because I need String output
             //in the lisTasks() method
             System.out.println(tasks.get(index - 1).printTask());
@@ -108,7 +138,7 @@ public class TaskList {
         }
         tasks.get(index - 1).setCompleted();
         unfinishedTaskCounter--;
-        System.out.println("main.java.Hudou.task.Task " + tasks.get(index - 1).getTaskName() + " has been marked done!");
+        System.out.println("Task " + tasks.get(index - 1).getTaskName() + " has been marked done!");
         listTasks();
     }
 
@@ -122,7 +152,7 @@ public class TaskList {
             if (tasks.get(i).getTaskName().equals(taskName)) {
                 tasks.get(i).setUncompleted();
                 unfinishedTaskCounter++;
-                System.out.println("main.java.Hudou.task.Task " + taskName + " has been unmarked!");
+                System.out.println("Task " + taskName + " has been unmarked!");
                 listTasks();
                 return;
             }
@@ -151,9 +181,10 @@ public class TaskList {
                 == HudouException.taskListErrors.errorCaught) {
             return;
         }
+        if (!tasks.get(index - 1).getTaskCompletionStatus()) {
+            unfinishedTaskCounter--;
+        }
         tasks.remove(index - 1);
-        //taskCounter--;
-        unfinishedTaskCounter--;
         System.out.println("The task has been deleted!");
         listTasks();
     }
