@@ -1,6 +1,12 @@
 package main.java.Hudou.command;
+import main.java.Hudou.storage.*;
 import main.java.Hudou.task.*;
 import main.java.Hudou.exception.*;
+
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+
+import static main.java.Hudou.storage.IOHandler.readTasksFromFile;
 
 
 public class ChatBot {
@@ -17,7 +23,7 @@ public class ChatBot {
 
     public ChatBot(){
         greeting();
-        taskList = new TaskList();
+        taskList = readTasksFromFile();
     }
 
     public static void greeting(){
@@ -60,7 +66,7 @@ public class ChatBot {
                     System.out.println(HudouException.emptyDescription);
                     return;
                 }
-                taskList.addTask(input);
+                taskList.addTask(input, false);
                 break;
 
             case "mark":
@@ -81,6 +87,9 @@ public class ChatBot {
                 break;
             case "delete":
                 taskList.deleteTask(Integer.parseInt(inputs[1]));
+                break;
+            case "save":
+                IOHandler.writeTasksToFile(taskList.getTasks());
                 break;
             //handle exceptions
             case "":
