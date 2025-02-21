@@ -1,4 +1,5 @@
 package main.java.Hudou.task;
+import main.java.Hudou.parser.SentenceParser;
 import main.java.Hudou.exception.HudouException;
 
 public class Todo extends Task {
@@ -12,7 +13,7 @@ public class Todo extends Task {
 
     public Todo(String input){
         try{
-            this.taskName = getSubstringFromSecondWord(input);
+            this.taskName = SentenceParser.getSubstringFromSecondWord(input);
             this.isCompleted = false;
             printAddedTask();
         } catch (NullPointerException e){

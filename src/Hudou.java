@@ -1,4 +1,4 @@
-package main.java.Hudou.command;
+import main.java.Hudou.command.ChatBot;
 
 import java.util.Scanner;
 

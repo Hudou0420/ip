@@ -1,13 +1,10 @@
 package main.java.Hudou.command;
-import main.java.Hudou.storage.*;
-import main.java.Hudou.task.*;
-import main.java.Hudou.exception.*;
 
-import java.net.URISyntaxException;
-import java.nio.file.Path;
+import main.java.Hudou.storage.*;
+import main.java.Hudou.parser.CommandParser;
+import main.java.Hudou.task.TaskList;
 
 import static main.java.Hudou.storage.IOHandler.readTasksFromFile;
-
 
 public class ChatBot {
     public static final String chatbotName = "Hudou";
@@ -21,23 +18,17 @@ public class ChatBot {
 
     private TaskList taskList;
 
-    public ChatBot(){
+    public ChatBot() {
         greeting();
         taskList = readTasksFromFile();
     }
 
-    public static void greeting(){
+    public static void greeting() {
         System.out.println(chatbotGreeting);
     }
 
-    public static void endSession(){
+    public static void endSession() {
         System.out.println(chatbotExit);
-    }
-
-    public static void echo(String input){
-        System.out.println(lineSeparator);
-        System.out.println("You said: " + input);
-        System.out.println(lineSeparator);
     }
 
     public static boolean isInteger(String str) {
@@ -49,60 +40,10 @@ public class ChatBot {
         }
     }
 
-    public void reactToInputs(String input){
-        String[] inputs = input.split(" ");
-        try{
-            switch (inputs[0]){ //take the first arg of the inputs
-            case "list":
-                taskList.listTasks();
-                break;
-            case "bye":
-                endSession();
-                break;
-            case "todo":
-            case "deadline":
-            case "event":
-                if (inputs.length < 2){
-                    System.out.println(HudouException.emptyDescription);
-                    return;
-                }
-                taskList.addTask(input, false);
-                break;
-
-            case "mark":
-                if (isInteger(inputs[1])){
-                    taskList.markDone(Integer.parseInt(inputs[1]));
-                } else{
-                    String taskName = Task.getSubstringFromSecondWord(input);
-                    taskList.markDone(taskName);
-                }
-                break;
-            case "unmark":
-                if (isInteger(inputs[1])){
-                    taskList.markUndone(Integer.parseInt(inputs[1]));
-                } else{
-                    String taskName = Task.getSubstringFromSecondWord(input);
-                    taskList.markUndone(taskName);
-                }
-                break;
-            case "delete":
-                taskList.deleteTask(Integer.parseInt(inputs[1]));
-                break;
-            case "save":
-                IOHandler.writeTasksToFile(taskList.getTasks());
-                break;
-            //handle exceptions
-            case "":
-                System.out.println("You did not say anything.");
-                break;
-            default:
-                System.out.println(HudouException.unknownInput);
-                echo(input);
-            }
-        } catch (IndexOutOfBoundsException e) {
-            HudouException.handleChatBotInvalidInput();
-        } catch (NullPointerException e) {
-            HudouException.handleChatBotEmptyInput();
+    public void reactToInputs(String input) {
+        Command command = CommandParser.parse(input);
+        if (command != null) {
+            command.execute(taskList);
         }
     }
 }

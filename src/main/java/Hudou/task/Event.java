@@ -1,5 +1,6 @@
 package main.java.Hudou.task;
 
+import main.java.Hudou.parser.SentenceParser;
 import main.java.Hudou.exception.HudouException;
 
 public class Event extends Task{
@@ -20,10 +21,10 @@ public class Event extends Task{
 
     public Event(String input){
         try{
-            String taskDetail = getSubstringFromSecondWord(input);
-            String[] taskDetails = splitBySubstringCommands(taskDetail, startTimeCommand);
+            String taskDetail = SentenceParser.getSubstringFromSecondWord(input);
+            String[] taskDetails = SentenceParser.splitBySubstringCommands(taskDetail, startTimeCommand);
             this.taskName = taskDetails[0];
-            String[] taskStartAndEndTime = splitBySubstringCommands(taskDetails[1], endTimeCommand);
+            String[] taskStartAndEndTime = SentenceParser.splitBySubstringCommands(taskDetails[1], endTimeCommand);
             this.startTime = taskStartAndEndTime[0];
             this.endTime = taskStartAndEndTime[1];
             printAddedTask();

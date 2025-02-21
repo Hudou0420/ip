@@ -1,5 +1,6 @@
 package main.java.Hudou.task;
 
+import main.java.Hudou.parser.SentenceParser;
 import main.java.Hudou.exception.HudouException;
 
 public class Deadline extends Task {
@@ -16,8 +17,8 @@ public class Deadline extends Task {
 
     public Deadline(String input){
         try{
-            String taskDetail = getSubstringFromSecondWord(input);
-            String[] taskDetails = splitBySubstringCommands(taskDetail, taskCommand);
+            String taskDetail = SentenceParser.getSubstringFromSecondWord(input);
+            String[] taskDetails = SentenceParser.splitBySubstringCommands(taskDetail, taskCommand);
             this.taskName = taskDetails[0];
             this.deadline = taskDetails[1];
             printAddedTask();
