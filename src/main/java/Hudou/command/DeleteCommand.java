@@ -1,6 +1,6 @@
 package main.java.Hudou.command;
 
-import main.java.Hudou.task.TaskList;
+import main.java.Hudou.list.TaskList;
 
 public class DeleteCommand extends Command {
     private int index;

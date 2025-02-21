@@ -1,8 +1,7 @@
 package main.java.Hudou.command;
 
-import main.java.Hudou.storage.*;
 import main.java.Hudou.parser.CommandParser;
-import main.java.Hudou.task.TaskList;
+import main.java.Hudou.list.TaskList;
 
 import static main.java.Hudou.storage.IOHandler.readTasksFromFile;
 

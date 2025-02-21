@@ -26,6 +26,8 @@ public class CommandParser {
             return new MarkCommand(input, false);
         case "delete":
             return new DeleteCommand(Integer.parseInt(inputs[1]));
+        case "find":
+            return new FindCommand(inputs[1]);
         case "save":
             return new SaveCommand();
         case "":
