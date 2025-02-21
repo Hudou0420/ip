@@ -1,5 +1,7 @@
 package main.java.Hudou.task;
 
+import main.java.Hudou.exception.InvalidDateFormatException;
+import main.java.Hudou.parser.DateTimeParser;
 import main.java.Hudou.parser.SentenceParser;
 import main.java.Hudou.exception.HudouException;
 
@@ -19,40 +21,28 @@ public class Event extends Task{
                 " from: " + this.startTime + ", to: " + this.endTime);
     }
 
-    public Event(String input){
-        try{
-            String taskDetail = SentenceParser.getSubstringFromSecondWord(input);
-            String[] taskDetails = SentenceParser.splitBySubstringCommands(taskDetail, startTimeCommand);
-            this.taskName = taskDetails[0];
-            String[] taskStartAndEndTime = SentenceParser.splitBySubstringCommands(taskDetails[1], endTimeCommand);
-            this.startTime = taskStartAndEndTime[0];
-            this.endTime = taskStartAndEndTime[1];
-            printAddedTask();
-        } catch (NullPointerException e){
-            HudouException.handleEmptyTask();
-        } catch (ArrayIndexOutOfBoundsException e){
-            HudouException.handleInvalidTask();
-        }
+    public Event(String input) throws Exception {
+        String taskDetail = SentenceParser.getSubstringFromSecondWord(input);
+        String[] taskDetails = SentenceParser.splitBySubstringCommands(taskDetail, startTimeCommand);
+        this.taskName = taskDetails[0];
+        String[] taskStartAndEndTime = SentenceParser.splitBySubstringCommands(taskDetails[1], endTimeCommand);
+        this.startTime = DateTimeParser.extractDateTime(taskStartAndEndTime[0]);
+        this.endTime = DateTimeParser.extractDateTime(taskStartAndEndTime[1]);
+        printAddedTask();
     }
 
-    public Event(String[] inputs){
-        try{
-            this.isCompleted =
-                    inputs[COMPLETION_STATUS_OFFSET].equals(completedSymbol);
-            this.taskName = inputs[TASK_NAME_OFFSET];
-            this.startTime = inputs[START_TIME_OFFSET];
-            this.endTime = inputs[END_TIME_OFFSET];
-        } catch (NullPointerException e){
-            HudouException.handleEmptyTask();
-        } catch (ArrayIndexOutOfBoundsException e){
-            HudouException.handleInvalidTask();
-        }
+    public Event(String[] inputs) throws Exception {
+        this.isCompleted =
+                inputs[COMPLETION_STATUS_OFFSET].equals(completedSymbol);
+        this.taskName = inputs[TASK_NAME_OFFSET];
+        this.startTime = inputs[START_TIME_OFFSET];
+        this.endTime = inputs[END_TIME_OFFSET];
     }
 
     public String printTask(){
         String completionStatus = (isCompleted ? completedSymbol : uncompletedSymbol) + " ";
         return (taskSymbol + completionStatus + this.taskName +
-                " (from:"+ this.startTime +  ", to:"  + this.endTime + ")");
+                " (from: "+ this.startTime +  ", to: "  + this.endTime + ")");
     }
 
     public String getTaskInString(){

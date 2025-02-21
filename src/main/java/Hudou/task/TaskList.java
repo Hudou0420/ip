@@ -29,20 +29,25 @@ public class TaskList {
 
     private Task classifyTaskTypes(String input, Boolean isReadFromFile){
         String[] inputArray = splitStringByInputType(input, isReadFromFile);
-        if (isReadFromFile){
-            return switch (inputArray[0]) {
-                case "todo" -> new Todo(inputArray);
-                case "deadline" -> new Deadline(inputArray);
-                case "event" -> new Event(inputArray);
-                default -> new Task(input);
-            };
-        } else{
-            return switch (inputArray[0]) {
-                case "todo" -> new Todo(input);
-                case "deadline" -> new Deadline(input);
-                case "event" -> new Event(input);
-                default -> new Task(input);
-            };
+        try{
+            if (isReadFromFile){
+                return switch (inputArray[0]) {
+                    case "todo" -> new Todo(inputArray);
+                    case "deadline" -> new Deadline(inputArray);
+                    case "event" -> new Event(inputArray);
+                    default -> new Task(input);
+                };
+            } else{
+                return switch (inputArray[0]) {
+                    case "todo" -> new Todo(input);
+                    case "deadline" -> new Deadline(input);
+                    case "event" -> new Event(input);
+                    default -> new Task(input);
+                };
+            }
+        } catch (Exception e) {
+            HudouException.handleException(e);
+            return null;
         }
     }
 
@@ -54,20 +59,6 @@ public class TaskList {
         unfinishedTaskCounter = 0;
     }
 
-    //constructor that takes in an already existed task list
-    //use later if needed
-    public TaskList(Task[] tasks) {
-        //this.tasks = tasks;
-        //taskCounter = tasks.length;
-    }
-
-    //copy constructor for later use if needed
-    public TaskList(TaskList other) {
-        this.tasks = other.tasks;
-        //this.taskCounter = other.taskCounter;
-    }
-
-
     public void addTask(String taskInput, boolean isReadFromFile) {
         //handle exception of too many events being in the list
         if (tasks.size() >= MAXTASKCOUNT){
@@ -77,7 +68,12 @@ public class TaskList {
         //process the first arg to get the type of the task
         //tasks[taskCounter] = classifyTaskTypes(taskInput);
         Task currentTask = classifyTaskTypes(taskInput, isReadFromFile);
-        tasks.add(currentTask);
+        if (currentTask != null){
+            tasks.add(currentTask);
+        } else{
+            HudouException.handleInvalidTask();
+            return;
+        }
         if (!isReadFromFile || !currentTask.getTaskCompletionStatus()){
             unfinishedTaskCounter++;    //change this later to check if the saved task has been done
         }

@@ -46,4 +46,16 @@ public class HudouException {
     public static void JARFullNotifier() {
         System.err.println("Error: JAR directory is null. Cannot write tasks to file.");
     }
+
+    public static void handleException(Exception e) {
+        if (e instanceof NullPointerException) {
+            handleEmptyTask();
+        } else if (e instanceof ArrayIndexOutOfBoundsException) {
+            handleInvalidTask();
+        } else if (e instanceof InvalidDateFormatException) {
+            System.err.println(e.getMessage());
+        } else {
+            System.err.println("Unexpected error: " + e.getMessage());
+        }
+    }
 }
