@@ -1,6 +1,6 @@
 package main.java.Hudou.command;
 
-import main.java.Hudou.task.TaskList;
+import main.java.Hudou.list.TaskList;
 import main.java.Hudou.exception.HudouException;
 import main.java.Hudou.parser.SentenceParser;
 

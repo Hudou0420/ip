@@ -1,11 +1,15 @@
-package main.java.Hudou.task;
+package main.java.Hudou.list;
 
 import main.java.Hudou.command.ChatBot;
 import main.java.Hudou.exception.HudouException;
+import main.java.Hudou.task.Deadline;
+import main.java.Hudou.task.Event;
+import main.java.Hudou.task.Task;
+import main.java.Hudou.task.Todo;
 
 import java.util.ArrayList;
 
-public class TaskList {
+public class TaskList implements List{
 
     public static final int MAXTASKCOUNT = 100;
     public static final String tooManyTasksNotifier =
@@ -77,13 +81,13 @@ public class TaskList {
         if (!isReadFromFile || !currentTask.getTaskCompletionStatus()){
             unfinishedTaskCounter++;    //change this later to check if the saved task has been done
         }
-        if (!isReadFromFile){ listTasks(); }
+        if (!isReadFromFile){ printTasks(); }
     }
 
 
     //method to print out all the tasks, whether it is completed or not
     //this method prints the tasks added earliest first.
-    public void listTasks(){
+    public void printTasks(){
         if (tasks.isEmpty()){
             HudouException.handleNoTaskNotifier();
             return;
@@ -107,7 +111,7 @@ public class TaskList {
                 tasks.get(i).setCompleted();
                 unfinishedTaskCounter--;
                 System.out.println("Task " + taskName + " has been marked done!");
-                listTasks();
+                printTasks();
                 return;
             }
         }
@@ -135,7 +139,7 @@ public class TaskList {
         tasks.get(index - 1).setCompleted();
         unfinishedTaskCounter--;
         System.out.println("Task " + tasks.get(index - 1).getTaskName() + " has been marked done!");
-        listTasks();
+        printTasks();
     }
 
     public void markUndone(String taskName){
@@ -149,7 +153,7 @@ public class TaskList {
                 tasks.get(i).setUncompleted();
                 unfinishedTaskCounter++;
                 System.out.println("Task " + taskName + " has been unmarked!");
-                listTasks();
+                printTasks();
                 return;
             }
         }
@@ -169,7 +173,7 @@ public class TaskList {
         tasks.get(index - 1).setUncompleted();
         unfinishedTaskCounter++;
         System.out.println("main.java.Hudou.task.Task " + tasks.get(index - 1).getTaskName() + " has been unmarked!");
-        listTasks();
+        printTasks();
     }
 
     public void deleteTask(int index){
@@ -182,6 +186,18 @@ public class TaskList {
         }
         tasks.remove(index - 1);
         System.out.println("The task has been deleted!");
-        listTasks();
+        printTasks();
+    }
+
+    public SearchList findTask(String keyword){
+        SearchList matches = new SearchList();
+        int taskIndex = 1;
+        for (Task task : tasks){
+            if (task.getTaskName().contains(keyword)){
+                matches.add(task, taskIndex);
+            }
+            taskIndex++;
+        }
+        return matches;
     }
 }
