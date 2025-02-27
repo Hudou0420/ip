@@ -1,14 +1,16 @@
-package main.java.Hudou.task;
+package main.java.Hudou.list;
 
 import main.java.Hudou.command.ChatBot;
 import main.java.Hudou.exception.HudouException;
+import main.java.Hudou.task.Deadline;
+import main.java.Hudou.task.Event;
+import main.java.Hudou.task.Task;
+import main.java.Hudou.task.Todo;
 
 import java.util.ArrayList;
 
-//a class to contain all single Task,
-public class TaskList {
+public class TaskList implements List{
 
-    //I still set a limit to the number of tasks can be set, so user won't be drowned by tasks
     public static final int MAXTASKCOUNT = 100;
     public static final String tooManyTasksNotifier =
             "You have too many events in your list! Complete some before adding new ones.";
@@ -31,34 +33,35 @@ public class TaskList {
     //the method is called when the chatbot wants to add a new task
     private Task classifyTaskTypes(String input, Boolean isReadFromFile){
         String[] inputArray = splitStringByInputType(input, isReadFromFile);
-        if (isReadFromFile){
-            return switch (inputArray[0]) {
-                case "todo" -> new Todo(inputArray);
-                case "deadline" -> new Deadline(inputArray);
-                case "event" -> new Event(inputArray);
-                default -> new Task(input);
-            };
-        } else{
-            return switch (inputArray[0]) {
-                case "todo" -> new Todo(input);
-                case "deadline" -> new Deadline(input);
-                case "event" -> new Event(input);
-                default -> new Task(input);
-            };
+        try{
+            if (isReadFromFile){
+                return switch (inputArray[0]) {
+                    case "todo" -> new Todo(inputArray);
+                    case "deadline" -> new Deadline(inputArray);
+                    case "event" -> new Event(inputArray);
+                    default -> new Task(input);
+                };
+            } else{
+                return switch (inputArray[0]) {
+                    case "todo" -> new Todo(input);
+                    case "deadline" -> new Deadline(input);
+                    case "event" -> new Event(input);
+                    default -> new Task(input);
+                };
+            }
+        } catch (Exception e) {
+            HudouException.handleException(e);
+            return null;
         }
     }
 
     //parameterless constructor, for inheritance purposes
     public TaskList() {
+        //tasks = new Task[MAXTASKCOUNT];
         tasks = new ArrayList<Task>();
+        //taskCounter = 0;
         unfinishedTaskCounter = 0;
     }
-
-
-    //The methods below is stored in TaskList instead of differnt command
-    //This is because it is easier to handle, especially it needs to access
-    //private variables in taskList. It will be more difficult to monitor and
-    //modify if I place it inside different commands
 
     public void addTask(String taskInput, boolean isReadFromFile) {
         //handle exception of too many events being in the list
@@ -68,17 +71,22 @@ public class TaskList {
         }
         //process the first arg to get the type of the task
         Task currentTask = classifyTaskTypes(taskInput, isReadFromFile);
-        tasks.add(currentTask);
+        if (currentTask != null){
+            tasks.add(currentTask);
+        } else{
+            HudouException.handleInvalidTask();
+            return;
+        }
         if (!isReadFromFile || !currentTask.getTaskCompletionStatus()){
             unfinishedTaskCounter++;
         }
-        if (!isReadFromFile){ listTasks(); }
+        if (!isReadFromFile){ printTasks(); }
     }
 
 
     //method to print out all the tasks, whether it is completed or not
     //this method prints the tasks added earliest first.
-    public void listTasks(){
+    public void printTasks(){
         if (tasks.isEmpty()){
             HudouException.handleNoTaskNotifier();
             return;
@@ -102,7 +110,7 @@ public class TaskList {
                 tasks.get(i).setCompleted();
                 unfinishedTaskCounter--;
                 System.out.println("Task " + taskName + " has been marked done!");
-                listTasks();
+                printTasks();
                 return;
             }
         }
@@ -130,7 +138,7 @@ public class TaskList {
         tasks.get(index - 1).setCompleted();
         unfinishedTaskCounter--;
         System.out.println("Task " + tasks.get(index - 1).getTaskName() + " has been marked done!");
-        listTasks();
+        printTasks();
     }
 
     public void markUndone(String taskName){
@@ -144,7 +152,7 @@ public class TaskList {
                 tasks.get(i).setUncompleted();
                 unfinishedTaskCounter++;
                 System.out.println("Task " + taskName + " has been unmarked!");
-                listTasks();
+                printTasks();
                 return;
             }
         }
@@ -164,7 +172,7 @@ public class TaskList {
         tasks.get(index - 1).setUncompleted();
         unfinishedTaskCounter++;
         System.out.println("main.java.Hudou.task.Task " + tasks.get(index - 1).getTaskName() + " has been unmarked!");
-        listTasks();
+        printTasks();
     }
 
     public void deleteTask(int index){
@@ -177,6 +185,18 @@ public class TaskList {
         }
         tasks.remove(index - 1);
         System.out.println("The task has been deleted!");
-        listTasks();
+        printTasks();
+    }
+
+    public SearchList findTask(String keyword){
+        SearchList matches = new SearchList();
+        int taskIndex = 1;
+        for (Task task : tasks){
+            if (task.getTaskName().contains(keyword)){
+                matches.add(task, taskIndex);
+            }
+            taskIndex++;
+        }
+        return matches;
     }
 }

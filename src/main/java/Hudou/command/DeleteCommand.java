@@ -1,6 +1,6 @@
 package main.java.Hudou.command;
 
-import main.java.Hudou.task.TaskList;
+import main.java.Hudou.list.TaskList;
 
 //child class of Command to call when user wants to delete a task
 public class DeleteCommand extends Command {

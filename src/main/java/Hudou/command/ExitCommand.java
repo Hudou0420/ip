@@ -1,6 +1,6 @@
 package main.java.Hudou.command;
 
-import main.java.Hudou.task.TaskList;
+import main.java.Hudou.list.TaskList;
 
 public class ExitCommand extends Command {
     public static final String chatbotExit =  '\n' + ChatBot.lineSeparator + '\n' +

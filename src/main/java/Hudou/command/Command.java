@@ -1,6 +1,6 @@
 package main.java.Hudou.command;
 
-import main.java.Hudou.task.TaskList;
+import main.java.Hudou.list.TaskList;
 
 //the parent class for general commands. called when the parseer has
 //recognized a valid command. The child class of the command handles different types of commands

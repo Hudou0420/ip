@@ -22,7 +22,7 @@ public class SentenceParser {
      * @return The substring starting from the second word, or an empty string if no second word exists.
      */
     public static String getSubstringFromSecondWord(String str) {
-        String[] words = str.split(" "); // Split by spaces
+        String[] words = str.split(" "); //split by spaces
         return words.length > 1 ? String.join(" ",
                 java.util.Arrays.copyOfRange(words, 1, words.length)) : "";
     }
@@ -44,10 +44,11 @@ public class SentenceParser {
     public static String[] splitBySubstringCommands(String str, String keyword) {
         int index = str.indexOf(keyword);
         if (index == -1) {
-            return new String[]{str, ""};  // If not found, return the full string as front, empty back
+            return new String[]{str, ""};  //if not found, return the full string as front, empty back
         }
         String front = str.substring(0, index);
         String back = str.substring(index + keyword.length());
         return new String[]{front, back};
     }
+
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 import main.java.Hudou.exception.HudouException;
 import main.java.Hudou.task.Task;
-import main.java.Hudou.task.TaskList;
+import main.java.Hudou.list.TaskList;
 import static main.java.Hudou.exception.HudouException.JARFullNotifier;
 import static main.java.Hudou.exception.HudouException.handleNoTaskNotifier;
 
