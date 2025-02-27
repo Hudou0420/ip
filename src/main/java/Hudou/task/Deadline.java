@@ -50,7 +50,7 @@ public class Deadline extends Task {
 
     public String printTask(){
         String completionStatus = (isCompleted ? completedSymbol : uncompletedSymbol) + " ";
-        return (TASK_SYMBOL + completionStatus + this.taskName + " (by:" + this.deadline + ")");
+        return (TASK_SYMBOL + completionStatus + this.taskName + " (by:" + this.deadline.printDateTime() + ")");
     }
 
     //method used for storing the deadline task
