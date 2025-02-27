@@ -17,10 +17,8 @@ public class TaskList implements List{
 
 
     private ArrayList<Task> tasks;
-    //private int taskCounter;
     private int unfinishedTaskCounter;
 
-    //public Task[] getTasks(){ return tasks; };
     public ArrayList<Task> getTasks() {return tasks;}
 
     //to split the command depending on whether the input is read from
@@ -31,6 +29,8 @@ public class TaskList implements List{
         return splitted;
     }
 
+    //depending on whether the task is read from file or from user input
+    //the method is called when the chatbot wants to add a new task
     private Task classifyTaskTypes(String input, Boolean isReadFromFile){
         String[] inputArray = splitStringByInputType(input, isReadFromFile);
         try{
@@ -55,7 +55,7 @@ public class TaskList implements List{
         }
     }
 
-    //parameterless
+    //parameterless constructor, for inheritance purposes
     public TaskList() {
         //tasks = new Task[MAXTASKCOUNT];
         tasks = new ArrayList<Task>();
@@ -70,7 +70,6 @@ public class TaskList implements List{
             return;
         }
         //process the first arg to get the type of the task
-        //tasks[taskCounter] = classifyTaskTypes(taskInput);
         Task currentTask = classifyTaskTypes(taskInput, isReadFromFile);
         if (currentTask != null){
             tasks.add(currentTask);
@@ -79,7 +78,7 @@ public class TaskList implements List{
             return;
         }
         if (!isReadFromFile || !currentTask.getTaskCompletionStatus()){
-            unfinishedTaskCounter++;    //change this later to check if the saved task has been done
+            unfinishedTaskCounter++;
         }
         if (!isReadFromFile){ printTasks(); }
     }

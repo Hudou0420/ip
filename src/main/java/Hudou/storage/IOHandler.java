@@ -1,4 +1,5 @@
 package main.java.Hudou.storage;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,13 +12,32 @@ import main.java.Hudou.list.TaskList;
 import static main.java.Hudou.exception.HudouException.JARFullNotifier;
 import static main.java.Hudou.exception.HudouException.handleNoTaskNotifier;
 
+/**
+ * @file    IOHandler.java
+ * @author  Hu Hongheng
+ * @date    2025-02-27
+ * @brief   Handles reading and writing tasks to a file for data persistence.
+ *
+ * This class is responsible for managing the storage of task data. It provides
+ * methods to convert tasks to a savable format, write tasks to a file, and
+ * read tasks from a stored file to initialize the application.
+ */
 public class IOHandler {
 
     private static final String storageFileName = "tasks.txt";
 
+    /**
+     * @brief Converts a list of Task objects to a String array for storage.
+     *
+     * This method is used to convert the tasks into a standard format where
+     * attributes of different task types are separated by the "|" symbol.
+     *
+     * @param tasks The list of tasks to be converted.
+     * @return An array of task strings, or null if the task list is null.
+     */
     public static String[] convertTaskToString(ArrayList<Task> tasks){
         if (tasks == null){
-            return null;             //add handle exceptions later
+            return null;
         }
         String[] tasksInString = new String[tasks.size()];
         for (int i = 0; i < tasks.size(); i++) {
@@ -26,37 +46,14 @@ public class IOHandler {
         return tasksInString;
     }
 
-    public static String[] convertTaskToString(Task[] tasks){
-        if (tasks == null){
-            return null;             //add handle exceptions later
-        }
-        String[] tasksInString = new String[tasks.length];
-        int i = 0;
-        while (i < tasks.length && tasks[i] != null){
-            tasksInString[i] = tasks[i].getTaskInString();
-            i++;
-        }
-//        for (int i = 0; i < tasks.length; i++) {
-//            if (tasks[i] != null) {
-//                tasksInString[i] = tasks[i].getTaskInString();
-//            }
-//        }
-        return tasksInString;
-    }
-
-    public static void writeTasksToFile(String fileName, ArrayList<Task> tasks){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            String[] tasksInString = convertTaskToString(tasks);
-            for (String task : tasksInString) {
-                writer.write(task);
-                writer.newLine();
-            }
-            System.out.println("Tasks written to file successfully!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * @brief Writes the list of tasks to a file.
+     *
+     * This method initializes a file writer and saves tasks into a text file
+     * in a structured format. If the file does not exist, it is created.
+     *
+     * @param tasks The list of tasks to be saved.
+     */
     public static void writeTasksToFile(ArrayList<Task> tasks) {
         try {
             Path jarDir = FileUtils.getJarDirectory();
@@ -76,7 +73,7 @@ public class IOHandler {
                         writer.newLine();
                     }
                 }
-                System.out.println("Your tasks has been saved. Good work!");
+                System.out.println("Your tasks have been saved. Good work!");
             }
         } catch (IOException e) {
             System.err.println("Error writing tasks to file: " + e.getMessage());
@@ -87,6 +84,14 @@ public class IOHandler {
         }
     }
 
+    /**
+     * @brief Reads tasks from the storage file.
+     *
+     * This method initializes the chatbot by fetching task data from a text file.
+     * If the file does not exist, it creates a new one.
+     *
+     * @return A TaskList object populated with tasks from the file.
+     */
     public static TaskList readTasksFromFile() {
         List<String> taskList = new ArrayList<>();
 
@@ -116,8 +121,7 @@ public class IOHandler {
             System.err.println("Error reading tasks from file: " + e.getMessage());
         } catch (NullPointerException e) {
             handleNoTaskNotifier();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Unexpected error while reading tasks: " + e.getMessage());
         }
 
@@ -127,6 +131,4 @@ public class IOHandler {
         }
         return list;
     }
-
-
 }

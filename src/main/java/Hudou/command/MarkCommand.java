@@ -14,6 +14,8 @@ public class MarkCommand extends Command {
     }
 
     @Override
+    //method to call when user marks or unmarks command
+    //the method can handle both search by index and search by name cases
     public void execute(TaskList taskList) {
         String[] inputs = input.split(" ");
         try {
