@@ -1,4 +1,5 @@
 package main.java.Hudou.storage;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,15 +12,29 @@ import main.java.Hudou.task.TaskList;
 import static main.java.Hudou.exception.HudouException.JARFullNotifier;
 import static main.java.Hudou.exception.HudouException.handleNoTaskNotifier;
 
-//this class is mainly used to handle the storage format and to write, create, modify
-//the data in the txt file.
+/**
+ * @file    IOHandler.java
+ * @author  Hu Hongheng
+ * @date    2025-02-27
+ * @brief   Handles reading and writing tasks to a file for data persistence.
+ *
+ * This class is responsible for managing the storage of task data. It provides
+ * methods to convert tasks to a savable format, write tasks to a file, and
+ * read tasks from a stored file to initialize the application.
+ */
 public class IOHandler {
 
     private static final String storageFileName = "tasks.txt";
 
-    //this method is called when saving tasks into the txt file, to parse into a standard format
-    //each attribute in different task types will be stored separated by "|" symbol
-    //because each task type has different attributes, look into the taks classes for more detail
+    /**
+     * @brief Converts a list of Task objects to a String array for storage.
+     *
+     * This method is used to convert the tasks into a standard format where
+     * attributes of different task types are separated by the "|" symbol.
+     *
+     * @param tasks The list of tasks to be converted.
+     * @return An array of task strings, or null if the task list is null.
+     */
     public static String[] convertTaskToString(ArrayList<Task> tasks){
         if (tasks == null){
             return null;
@@ -31,7 +46,14 @@ public class IOHandler {
         return tasksInString;
     }
 
-    //this method is called to initialise file writer
+    /**
+     * @brief Writes the list of tasks to a file.
+     *
+     * This method initializes a file writer and saves tasks into a text file
+     * in a structured format. If the file does not exist, it is created.
+     *
+     * @param tasks The list of tasks to be saved.
+     */
     public static void writeTasksToFile(ArrayList<Task> tasks) {
         try {
             Path jarDir = FileUtils.getJarDirectory();
@@ -51,7 +73,7 @@ public class IOHandler {
                         writer.newLine();
                     }
                 }
-                System.out.println("Your tasks has been saved. Good work!");
+                System.out.println("Your tasks have been saved. Good work!");
             }
         } catch (IOException e) {
             System.err.println("Error writing tasks to file: " + e.getMessage());
@@ -62,11 +84,14 @@ public class IOHandler {
         }
     }
 
-    //this method is called when the chatbot is initialising, it will fetch the content
-    //inside the txt file.
-    //the path of the txt file is hardcoded to be in the same directory as the project.
-    //if using Intellij IDEA, then it will be in yourProjectRoot/out/production/"task.txt"
-    //if using JAR, then it will be in the same directory as the JAR file
+    /**
+     * @brief Reads tasks from the storage file.
+     *
+     * This method initializes the chatbot by fetching task data from a text file.
+     * If the file does not exist, it creates a new one.
+     *
+     * @return A TaskList object populated with tasks from the file.
+     */
     public static TaskList readTasksFromFile() {
         List<String> taskList = new ArrayList<>();
 
@@ -96,8 +121,7 @@ public class IOHandler {
             System.err.println("Error reading tasks from file: " + e.getMessage());
         } catch (NullPointerException e) {
             handleNoTaskNotifier();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Unexpected error while reading tasks: " + e.getMessage());
         }
 
@@ -107,6 +131,4 @@ public class IOHandler {
         }
         return list;
     }
-
-
 }

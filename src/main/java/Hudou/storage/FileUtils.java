@@ -7,9 +7,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * @file    FileUtils.java
+ * @author  Hu Hongheng
+ * @date    2025-02-27
+ * @brief   Utility class for file operations in the Hudou application.
+ *
+ * This class provides utility methods for handling file-related operations,
+ * such as retrieving the directory of the JAR file and creating files in
+ * the JAR's directory.
+ */
 public class FileUtils {
 
-    //method to get the directory where the JAR file is located
+    /**
+     * @brief Retrieves the directory where the JAR file is located.
+     *
+     * This method returns the parent directory of the JAR file where the
+     * application is running. If an error occurs, it prints an error message
+     * and returns null.
+     *
+     * @return The Path representing the JAR's directory or null if an error occurs.
+     * @throws URISyntaxException If the URI syntax is incorrect.
+     */
     public static Path getJarDirectory() throws URISyntaxException {
         try {
             Path path = Paths.get(new File(FileUtils.class.getProtectionDomain()
@@ -21,7 +40,14 @@ public class FileUtils {
         }
     }
 
-    //method to create a file in the JAR's directory
+    /**
+     * @brief Creates a file in the JAR's directory.
+     *
+     * This method attempts to create a file with the given name inside
+     * the JAR's directory. If the file already exists, it notifies the user.
+     *
+     * @param fileName The name of the file to be created.
+     */
     public static void createFileInJarDirectory(String fileName) {
         try {
             Path jarDir = getJarDirectory();
