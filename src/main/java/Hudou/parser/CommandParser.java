@@ -5,10 +5,12 @@ import main.java.Hudou.exception.HudouException;
 
 public class CommandParser {
 
+    //method to call when the chatbot does not understand what the user said
     private static void echo(String input){
         System.out.println(input);
     }
 
+    //method to process user's command based on the first keyword separated by space
     public static Command parse(String input) {
         String[] inputs = input.split(" ");
         switch (inputs[0].toLowerCase()) {

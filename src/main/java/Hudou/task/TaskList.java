@@ -5,18 +5,18 @@ import main.java.Hudou.exception.HudouException;
 
 import java.util.ArrayList;
 
+//a class to contain all single Task,
 public class TaskList {
 
+    //I still set a limit to the number of tasks can be set, so user won't be drowned by tasks
     public static final int MAXTASKCOUNT = 100;
     public static final String tooManyTasksNotifier =
             "You have too many events in your list! Complete some before adding new ones.";
 
 
     private ArrayList<Task> tasks;
-    //private int taskCounter;
     private int unfinishedTaskCounter;
 
-    //public Task[] getTasks(){ return tasks; };
     public ArrayList<Task> getTasks() {return tasks;}
 
     //to split the command depending on whether the input is read from
@@ -27,6 +27,8 @@ public class TaskList {
         return splitted;
     }
 
+    //depending on whether the task is read from file or from user input
+    //the method is called when the chatbot wants to add a new task
     private Task classifyTaskTypes(String input, Boolean isReadFromFile){
         String[] inputArray = splitStringByInputType(input, isReadFromFile);
         if (isReadFromFile){
@@ -46,27 +48,17 @@ public class TaskList {
         }
     }
 
-    //parameterless
+    //parameterless constructor, for inheritance purposes
     public TaskList() {
-        //tasks = new Task[MAXTASKCOUNT];
         tasks = new ArrayList<Task>();
-        //taskCounter = 0;
         unfinishedTaskCounter = 0;
     }
 
-    //constructor that takes in an already existed task list
-    //use later if needed
-    public TaskList(Task[] tasks) {
-        //this.tasks = tasks;
-        //taskCounter = tasks.length;
-    }
 
-    //copy constructor for later use if needed
-    public TaskList(TaskList other) {
-        this.tasks = other.tasks;
-        //this.taskCounter = other.taskCounter;
-    }
-
+    //The methods below is stored in TaskList instead of differnt command
+    //This is because it is easier to handle, especially it needs to access
+    //private variables in taskList. It will be more difficult to monitor and
+    //modify if I place it inside different commands
 
     public void addTask(String taskInput, boolean isReadFromFile) {
         //handle exception of too many events being in the list
@@ -75,11 +67,10 @@ public class TaskList {
             return;
         }
         //process the first arg to get the type of the task
-        //tasks[taskCounter] = classifyTaskTypes(taskInput);
         Task currentTask = classifyTaskTypes(taskInput, isReadFromFile);
         tasks.add(currentTask);
         if (!isReadFromFile || !currentTask.getTaskCompletionStatus()){
-            unfinishedTaskCounter++;    //change this later to check if the saved task has been done
+            unfinishedTaskCounter++;
         }
         if (!isReadFromFile){ listTasks(); }
     }

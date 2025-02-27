@@ -11,13 +11,18 @@ import main.java.Hudou.task.TaskList;
 import static main.java.Hudou.exception.HudouException.JARFullNotifier;
 import static main.java.Hudou.exception.HudouException.handleNoTaskNotifier;
 
+//this class is mainly used to handle the storage format and to write, create, modify
+//the data in the txt file.
 public class IOHandler {
 
     private static final String storageFileName = "tasks.txt";
 
+    //this method is called when saving tasks into the txt file, to parse into a standard format
+    //each attribute in different task types will be stored separated by "|" symbol
+    //because each task type has different attributes, look into the taks classes for more detail
     public static String[] convertTaskToString(ArrayList<Task> tasks){
         if (tasks == null){
-            return null;             //add handle exceptions later
+            return null;
         }
         String[] tasksInString = new String[tasks.size()];
         for (int i = 0; i < tasks.size(); i++) {
@@ -26,37 +31,7 @@ public class IOHandler {
         return tasksInString;
     }
 
-    public static String[] convertTaskToString(Task[] tasks){
-        if (tasks == null){
-            return null;             //add handle exceptions later
-        }
-        String[] tasksInString = new String[tasks.length];
-        int i = 0;
-        while (i < tasks.length && tasks[i] != null){
-            tasksInString[i] = tasks[i].getTaskInString();
-            i++;
-        }
-//        for (int i = 0; i < tasks.length; i++) {
-//            if (tasks[i] != null) {
-//                tasksInString[i] = tasks[i].getTaskInString();
-//            }
-//        }
-        return tasksInString;
-    }
-
-    public static void writeTasksToFile(String fileName, ArrayList<Task> tasks){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            String[] tasksInString = convertTaskToString(tasks);
-            for (String task : tasksInString) {
-                writer.write(task);
-                writer.newLine();
-            }
-            System.out.println("Tasks written to file successfully!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    //this method is called to initialise file writer
     public static void writeTasksToFile(ArrayList<Task> tasks) {
         try {
             Path jarDir = FileUtils.getJarDirectory();
@@ -87,6 +62,11 @@ public class IOHandler {
         }
     }
 
+    //this method is called when the chatbot is initialising, it will fetch the content
+    //inside the txt file.
+    //the path of the txt file is hardcoded to be in the same directory as the project.
+    //if using Intellij IDEA, then it will be in yourProjectRoot/out/production/"task.txt"
+    //if using JAR, then it will be in the same directory as the JAR file
     public static TaskList readTasksFromFile() {
         List<String> taskList = new ArrayList<>();
 

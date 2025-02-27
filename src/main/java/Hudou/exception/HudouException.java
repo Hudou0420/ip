@@ -31,6 +31,8 @@ public class HudouException {
 
     public static enum taskListErrors {noError, errorCaught}
 
+    //a method to handle all exceptions in taskList, to simplify the method inside taskList
+    //as there are a lot of cases where this will be used, so to prevent re-typing
     public static taskListErrors handleTaskListExceptions(int index, int taskCounter, int unfinishedTaskCounter){
         if (taskCounter == 0){
             handleNoTaskNotifier();

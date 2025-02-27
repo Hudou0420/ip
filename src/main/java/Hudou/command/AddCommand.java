@@ -3,13 +3,14 @@ package main.java.Hudou.command;
 import main.java.Hudou.task.TaskList;
 import main.java.Hudou.exception.HudouException;
 
+//Child class of command to execute adding task commands
 public class AddCommand extends Command {
     private String input;
-    private boolean isLoaded;
+    private boolean isReadFromFile;
 
-    public AddCommand(String input, boolean isLoaded) {
+    public AddCommand(String input, boolean isReadFromFile) {
         this.input = input;
-        this.isLoaded = isLoaded;
+        this.isReadFromFile = isReadFromFile;
     }
 
     @Override
@@ -18,7 +19,7 @@ public class AddCommand extends Command {
             System.out.println(HudouException.emptyDescription);
             return;
         }
-        taskList.addTask(input, isLoaded);
+        taskList.addTask(input, isReadFromFile);
     }
 }
 
