@@ -11,28 +11,16 @@ public class Todo extends Task {
     }
 
 
-    public Todo(String input){
-        try{
-            this.taskName = SentenceParser.getSubstringFromSecondWord(input);
-            this.isCompleted = false;
-            printAddedTask();
-        } catch (NullPointerException e){
-            HudouException.handleEmptyTask();
-        } catch (ArrayIndexOutOfBoundsException e){
-            HudouException.handleInvalidTask();
-        }
+    public Todo(String input) throws Exception {
+        this.taskName = SentenceParser.getSubstringFromSecondWord(input);
+        this.isCompleted = false;
+        printAddedTask();
     }
 
-    public Todo(String[] inputs){
-        try{
-            this.isCompleted =
-                    inputs[COMPLETION_STATUS_OFFSET].equals(completedSymbol);
-            this.taskName = inputs[TASK_NAME_OFFSET];
-        } catch (NullPointerException e){
-            HudouException.handleEmptyTask();
-        } catch (ArrayIndexOutOfBoundsException e){
-            HudouException.handleInvalidTask();
-        }
+    public Todo(String[] inputs) throws Exception {
+        this.isCompleted =
+                inputs[COMPLETION_STATUS_OFFSET].equals(completedSymbol);
+        this.taskName = inputs[TASK_NAME_OFFSET];
     }
 
     public String printTask(){
