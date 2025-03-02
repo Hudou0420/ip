@@ -20,12 +20,11 @@ $ git clone https://github.com/Hudou0420/ip.git
 $ cd ip
 ```
 
-## Running the Program
+## Running the Program in Intellij IDEA
 To compile and run the program:
-```sh
-$ javac -d bin src/main/java/Hudou/*.java
-$ java -cp bin main.java.Hudou.Hudou
-```
+- Create a new project in Intellij IDEA
+- Choose the IP folder as the project root
+- Run the program in the IDE
 
 Alternatively, if you have a pre-built JAR file:
 ```sh
@@ -93,9 +92,9 @@ Closes the program.
 Hudou stores tasks in a file named `tasks.txt`. The file is automatically created if it does not exist.
 
 ## Error Handling
-If you enter an invalid command, Hudou will notify you and provide guidance on the correct usage.
+If you enter an invalid command, Hudou will notify you and echo back the command you have sent.
 
 ---
 
-📢 **Stay productive with Hudou!** 🚀
+**Stay productive with Hudou!** 🚀
 
