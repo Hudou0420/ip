@@ -7,8 +7,7 @@ public class InvalidDateFormatException extends Exception {
             "Suggested format:\n" +
                               "\tyyyy/MM/dd HH:mm, \n" +
                               "\tdd/MM/yyyy HH:mm, \n" +
-                              "\tdd/MM/yyyy HHmm, \n" +
-                              "\tyyyy/MM/dd or dd/MM/yyyy";
+                              "\tdd/MM/yyyy";
 
     public InvalidDateFormatException(String message) {
         super(message);

@@ -180,6 +180,10 @@ public class TaskList implements List{
                 == HudouException.taskListErrors.errorCaught) {
             return;
         }
+        if (index - 1 < 0 || index - 1 >= tasks.size()){
+            HudouException.handleNonExistentTaskNotifier();
+            return;
+        }
         if (!tasks.get(index - 1).getTaskCompletionStatus()) {
             unfinishedTaskCounter--;
         }

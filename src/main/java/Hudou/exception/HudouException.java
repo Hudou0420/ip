@@ -55,7 +55,7 @@ public class HudouException {
             handleNoTaskNotifier();
             return taskListErrors.errorCaught;
         }
-        if (index > taskCounter){
+        if (index > taskCounter) {
             handleNonExistentTaskNotifier();
             return taskListErrors.errorCaught;
         }

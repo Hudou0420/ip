@@ -52,7 +52,12 @@ public class CommandParser {
         case "unmark":
             return new MarkCommand(input, false);
         case "delete":
-            return new DeleteCommand(Integer.parseInt(inputs[1]));
+            if (ChatBot.isInteger(inputs[1])) {
+                return new DeleteCommand(Integer.parseInt(inputs[1]));
+            } else{
+                System.out.println(HudouException.chatBotInvalidInput);
+                return null;
+            }
         case "find":
             return new FindCommand(inputs[1]);
         case "save":
