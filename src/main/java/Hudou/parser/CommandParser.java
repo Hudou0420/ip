@@ -36,7 +36,7 @@ public class CommandParser {
      * @param input The user input string containing a command.
      * @return The appropriate Command object, or null if the input is invalid.
      */
-    public static Command parse(String input) {
+    public static Command parse(String input) throws Exception{
         String[] inputs = input.split(" ");
         switch (inputs[0].toLowerCase()) {
         case "list":

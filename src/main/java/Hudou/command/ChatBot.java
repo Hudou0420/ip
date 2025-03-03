@@ -1,5 +1,6 @@
 package main.java.Hudou.command;
 
+import main.java.Hudou.exception.HudouException;
 import main.java.Hudou.parser.CommandParser;
 import main.java.Hudou.list.TaskList;
 
@@ -39,9 +40,13 @@ public class ChatBot {
     //important method to call when user finished typing a commmand and chatbot
     //is suppose to understand what the user has said
     public void reactToInputs(String input) {
-        Command command = CommandParser.parse(input);
-        if (command != null) {
-            command.execute(taskList);
+        try {
+            Command command = CommandParser.parse(input);
+            if (command != null) {
+                command.execute(taskList);
+            }
+        } catch (Exception e) {
+            HudouException.handleException(e);
         }
     }
 }
