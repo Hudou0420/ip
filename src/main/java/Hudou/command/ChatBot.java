@@ -20,7 +20,7 @@ public class ChatBot {
     //uses the program, it will create a file. Details please look at the IOHandler.readTaskFromFile() method
     public ChatBot() {
         greeting();
-        taskList = readTasksFromFile();
+        taskList = new TaskList();
     }
 
     public static void greeting() {

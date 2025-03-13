@@ -14,8 +14,7 @@ package main.java.Hudou.exception;
 public class HudouException {
 
     public static final String emptyDescription = "You did not enter a description for the task.";
-    public static final String unknownInput = "I have no idea what you've said\n" +
-            "So I am just gonna repeat what you've said.";
+    public static final String unknownInput = "I have no idea what you've said\nSo I am just gonna repeat what you've said.";
 
     public static final String emptyTask = "Task not added, the input is empty.";
     public static final String invalidTask = "The input is invalid. Please try again.";
